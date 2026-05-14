@@ -3,9 +3,10 @@ package kr.co.springbootex.ecommerce.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
+import kr.co.springbootex.ecommerce.entity.base.Nameable;
 import kr.co.springbootex.ecommerce.entity.constant.UserClassification;
+import kr.co.springbootex.ecommerce.entity.constant.UserStatus;
 import lombok.*;
-import org.aspectj.weaver.ast.Or;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,42 +18,44 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@Table(name = "TB_USER")
+public class User implements Nameable {
 
+    //dto도 수정
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "user_id")
-    private Long id;
-
     @Pattern(regexp = "^[a-zA-Z0-9]{5,15}$", message = "영어 대소문자, 숫자로 이루어져 합니다.")
-    @Column(name = "userId", nullable = false, unique = true)
+    @Column(name = "id_user", length = 100)
     private String userId;
 
-    @Column(name = "password", nullable = false, unique = true)
+    @Column(name = "nm_user", nullable = false, length = 100)
+    private String name;
+
+    @Column(name = "nm_passwd", nullable = false, unique = true, length = 256)
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\\\d)[a-zA-Z\\\\d]{5,15}$",
             message = "영문 대문자, 소문자, 숫자를 각각 최소 1개 이상 포함해야 하며, 영문자와 숫자로만 이루어져야 합니다.")
     private String password;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "telNo")
+    @Column(name = "no_mobile", nullable = false, length = 30)
     private String telNo;
 
     @Email
-    @Column(name = "email")
+    @Column(name = "nm_email", nullable = false, length = 100)
     private String email;
 
-    @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "st_status", nullable = false, length = 4)
+    private UserStatus userStatus;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "userClassification", nullable = false)
+    @Column(name = "cd_user_type", nullable = false, length = 4)
     private UserClassification userClassification;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Orders> orders = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<CartItem> cartitems = new ArrayList<>();
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Basket basket;
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<BasketItem> cartitems = new ArrayList<>();
 }

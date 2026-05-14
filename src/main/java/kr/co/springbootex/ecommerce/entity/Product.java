@@ -1,9 +1,11 @@
 package kr.co.springbootex.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import kr.co.springbootex.ecommerce.entity.constant.ProductStatus;
+import kr.co.springbootex.ecommerce.entity.base.Nameable;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,36 +16,46 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
-public class Product {
+@Table(name = "TB_PRODUCT")
+public class Product implements Nameable {
 
+    //dto 수정
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "product_id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "no_product", length = 30)
+    private String id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "nm_product", nullable = false, unique = true)
     private String name;
 
     @Lob
-    @Column(name = "description")
+    @Column(name = "nm_detail_explain", length = 4000)
     private String description;
 
-    @Column(name = "price")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd", timezone = "Asia/Seoul")
+    @Column(name = "dt_start_date", length = 8)
+    private LocalDate startDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd", timezone = "Asia/Seoul")
+    @Column(name = "dt_end_date", length = 8)
+    private LocalDate endDate;
+
+    @Column(name = "qt_sale_price", precision = 9, nullable = false)
     private int price;
 
-    @Column(name = "stock")
+    @Column(name = "qt_stock", precision = 9)
     private int stock;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "productStatus")
-    private ProductStatus productStatus;
-
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//    private List<Orders> orders = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Orders> orders = new ArrayList<>();
+    private List<BasketItem> cartitems = new ArrayList<>();
 
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    private Content content;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<CartItem> cartitems = new ArrayList<>();
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    private OrderItem orderItem;
 
 }

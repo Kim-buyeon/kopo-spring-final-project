@@ -1,6 +1,7 @@
 package kr.co.springbootex.ecommerce.entity;
 
 import jakarta.persistence.*;
+import kr.co.springbootex.ecommerce.entity.base.Nameable;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Category {
+public class Category implements Nameable {
 
     @Id
     @Column(name = "category_id")

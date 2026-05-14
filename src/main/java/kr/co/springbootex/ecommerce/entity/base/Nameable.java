@@ -1,0 +1,5 @@
+package kr.co.springbootex.ecommerce.entity.base;
+
+public interface Nameable {
+    String getName();
+}
