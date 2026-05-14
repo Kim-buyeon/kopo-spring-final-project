@@ -15,7 +15,7 @@ public class BasketItem implements Quantifiable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "nb_basket", scale = 9)
+    @Column(name = "nb_basket_item", scale = 9)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

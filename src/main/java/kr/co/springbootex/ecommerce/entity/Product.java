@@ -50,12 +50,12 @@ public class Product implements Nameable {
 //    private List<Orders> orders = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<BasketItem> cartitems = new ArrayList<>();
+    private List<BasketItem> basketItems = new ArrayList<>();
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private Content content;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
-    private OrderItem orderItem;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems;
 
 }

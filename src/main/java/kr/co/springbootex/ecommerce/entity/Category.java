@@ -25,6 +25,9 @@ public class Category implements Nameable {
 
     @Column(name = "sortOrder")
     private String sortOrder;
+    
+    @Column(name = "cn_level", scale = 4)
+    private int level;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")

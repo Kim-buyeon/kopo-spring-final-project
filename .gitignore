@@ -39,3 +39,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Custom Exclude ###
+application.yml
+**/src/main/resources/application.yml

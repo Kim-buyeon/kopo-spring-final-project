@@ -23,11 +23,11 @@ public class OrderItem implements Quantifiable {
     @Column(name = "cn_order_item", scale = 5, nullable = false)
     private int orderTurn;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_order")
     private Orders order;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "no_product")
     private Product product;
 

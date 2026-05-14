@@ -30,7 +30,7 @@ public class User implements Nameable {
     @Column(name = "nm_user", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "nm_passwd", nullable = false, unique = true, length = 256)
+    @Column(name = "nm_passwd", nullable = false, length = 256)
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\\\d)[a-zA-Z\\\\d]{5,15}$",
             message = "영문 대문자, 소문자, 숫자를 각각 최소 1개 이상 포함해야 하며, 영문자와 숫자로만 이루어져야 합니다.")
     private String password;
