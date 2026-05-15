@@ -5,7 +5,7 @@ import kr.co.springbootex.ecommerce.dto.request.IdRequest;
 
 public record CategoryUpdateRequest(
         @NotBlank
-        String id,
+        Long id,
         String name
-) implements IdRequest<String> {
+) implements IdRequest<Long> {
 }

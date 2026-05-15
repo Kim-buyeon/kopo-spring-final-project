@@ -22,7 +22,7 @@ public class Product implements Nameable {
     //dto 수정
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "no_product", length = 30)
+    @Column(name = "no_product", length = 60)
     private String id;
 
     @Column(name = "nm_product", nullable = false, unique = true)

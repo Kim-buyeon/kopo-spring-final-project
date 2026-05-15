@@ -16,14 +16,14 @@ import java.util.List;
 public class Category implements Nameable {
 
     @Id
-    @Column(name = "category_id")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @Column(name = "nb_category")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "nm_cateogory", nullable = false)
     private String name;
 
-    @Column(name = "sortOrder")
+    @Column(name = "cn_order")
     private String sortOrder;
     
     @Column(name = "cn_level", scale = 4)
