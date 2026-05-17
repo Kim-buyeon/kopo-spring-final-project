@@ -1,78 +1,76 @@
 package kr.co.springbootex.ecommerce.controller;
 
-import kr.co.springbootex.ecommerce.dto.UserDTO;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import kr.co.springbootex.ecommerce.dto.request.user.LoginRequest;
+import kr.co.springbootex.ecommerce.dto.request.user.UserCreateRequest;
+import kr.co.springbootex.ecommerce.dto.request.user.UserUpdateRequest;
+import kr.co.springbootex.ecommerce.dto.response.ApiResult;
+import kr.co.springbootex.ecommerce.dto.response.user.LoginResponse;
+import kr.co.springbootex.ecommerce.dto.response.user.UserResponse;
 import kr.co.springbootex.ecommerce.entity.User;
 import kr.co.springbootex.ecommerce.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
-@RequestMapping("/users")
-public class UserController {
-    private final UserService userService;
+@RequestMapping("/api/users")
+public class UserController extends NameAbleCommonController<
+	User, 
+	String, 
+	UserCreateRequest,
+	UserUpdateRequest,
+	UserResponse> {
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+	private final UserService userService;
+	public UserController(UserService userService) {
+		super(userService);
+		this.userService = userService;
+	}
 
-    @GetMapping
-    public ResponseEntity<List<User>> getAllUsers(Pageable pageable){
-        List<User> users = userService.findAll(pageable);
-        return ResponseEntity.ok(users);
-    }
+	@Override
+	protected UserResponse convertToResponse(User user) {
+		return UserResponse.from(user);
+	}
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id")Long id){
-        User user = userService.findById(id);
-        if(user == null){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(user);
-    }
+	@Override
+	protected User convertToEntity(UserCreateRequest request) {
+		return User.builder()
+				.id(request.userId())
+				.name(request.name())
+				.email(request.email())
+				.password(request.password())
+				.telNo(request.telNo())
+				.userClassification(request.userClassification())
+				.userStatus(request.userStatus())
+				.build();
+	}
 
-    @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO){
-        User user = userService.createUser(userDTO);
-        if(user != null){
-            return ResponseEntity.status(201).body("User created");
-        }else{
-            return ResponseEntity.badRequest().body("Fail Created");
-        }
-    }
-
-    @PutMapping()
-    public  ResponseEntity<String> updateUser(@RequestBody UserDTO userDTO){
-        User user = userService.updateUser(userDTO);
-        if(user != null){
-            return ResponseEntity.ok("User updated");
-        }else{
-            return ResponseEntity.badRequest().body("Fail Updated");
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id")Long id){
-        try {
-            userService.deleteUserById(id);
-            return ResponseEntity.ok("삭제 성공");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("삭제할 데이터가 없습니다.");
-        }
-    }
-
-
-
-
-
-
-
+	@Override
+	protected void updateEntityFromDto(UserUpdateRequest request, User user) {
+		user.setName(request.name());
+		user.setEmail(request.email());
+		user.setPassword(request.password());
+		user.setTelNo(request.telNo());
+		
+	}
+	
+	@PostMapping("/login")
+	public ApiResult<LoginResponse> login(
+			@RequestBody @Valid LoginRequest request,
+			HttpServletRequest servletRequest){
+		LoginResponse loginResponse = userService.login(request, servletRequest);
+		return ApiResult.success(loginResponse);
+		
+	}
+	
+	@PostMapping("/logout")
+	public ApiResult<Void> logout(HttpServletRequest servletRequest){
+		userService.logout(servletRequest);
+		return ApiResult.success(null);
+	}
 
 }

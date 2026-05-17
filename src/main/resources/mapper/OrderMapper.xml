@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.springbootex.ecommerce.mapper.OrderMapper">
+
+    <select id="countAndGroupByDaily" resultType="kr.co.springbootex.ecommerce.dto.response.order.DailyOrderStats">
+        SELECT 
+            o.da_order                AS daOrder,
+            COUNT(DISTINCT o.id_user) AS pureUserCount FROM 
+            tb_order o
+        GROUP BY 
+            o.da_order
+        ORDER BY 
+            o.da_order DESC 
+    </select>
+
+    <select id="countAndGroupByUserId" resultType="kr.co.springbootex.ecommerce.dto.response.order.UserOrderStats">
+        SELECT
+            u.id_user              AS idUser,
+            COUNT(o.id_order)      AS totalOrders,       o.nm_delivery_address  AS nmDeliveryAddress,
+            SUM(o.qt_order_amount) AS totalAmount,
+            o.da_order             AS daOrder
+        FROM 
+            tb_order o 
+        JOIN 
+            tb_user u ON o.id_user = u.id_user
+        GROUP BY 
+            u.id_user, 
+            o.nm_delivery_address, 
+            o.da_order 
+        ORDER BY 
+            daOrder DESC, idUser ASC
+    </select>
+
+</mapper>

@@ -13,14 +13,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Category implements Nameable {
+public class Category implements Nameable<Long> {
 
     @Id
     @Column(name = "nb_category")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "nm_cateogory", nullable = false)
+    @Column(name = "nm_category", nullable = false)
     private String name;
 
     @Column(name = "cn_order")

@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public abstract class CommonInfoResponse<ID, T extends Nameable> {
-    private ID id;
-    private String name;
+public abstract class CommonInfoResponse<ID, T extends Nameable<ID>> {
+	private final ID id;
+    private  final String name;
 }

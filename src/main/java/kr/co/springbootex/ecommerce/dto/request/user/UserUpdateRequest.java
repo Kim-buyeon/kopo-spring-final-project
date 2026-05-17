@@ -1,12 +1,11 @@
 package kr.co.springbootex.ecommerce.dto.request.user;
 
-import jakarta.validation.constraints.NotNull;
-import kr.co.springbootex.ecommerce.dto.request.IdRequest;
+import kr.co.springbootex.ecommerce.dto.request.NameRequest;
 
 public record UserUpdateRequest(
-        @NotNull Long id,
         String password,
         String email,
-        String telNo
-) implements IdRequest<Long> {
+        String telNo,
+        String name
+) implements NameRequest {
 }

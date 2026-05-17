@@ -1,5 +1,6 @@
-package kr.co.springbootex.ecommerce.dto.response;
+package kr.co.springbootex.ecommerce.dto.response.product;
 
+import kr.co.springbootex.ecommerce.dto.response.CommonInfoResponse;
 import kr.co.springbootex.ecommerce.entity.Product;
 import lombok.Getter;
 
@@ -27,5 +28,18 @@ public class ProductResponse extends CommonInfoResponse<String, Product>{
         this.stock = stock;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+    
+    public static ProductResponse from(Product product) {
+    	return new ProductResponse(
+    			product.getId(),
+    			product.getName(),
+    			product.getDescription(),
+    			product.getPrice(),
+    			product.getStock(),
+    			product.getStartDate(),
+    			product.getEndDate()
+    	);
+    			
     }
 }

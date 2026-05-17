@@ -1,16 +1,16 @@
-package kr.co.springbootex.ecommerce.dto.response;
+package kr.co.springbootex.ecommerce.dto.response.quantity;
 
 import kr.co.springbootex.ecommerce.entity.base.Quantifiable;
 
-public record QuantityResponse<T extends Quantifiable>(
-        Long id,
+public record QuantityResponse<ID>(
+		ID id,
         String productName,
         int quantity,
         int price
 ) {
-    public static <T extends Quantifiable> QuantityResponse<T> from(Long id, T entity) {
+    public static <ID, T extends Quantifiable<ID>> QuantityResponse<ID> from(T entity) {
         return new QuantityResponse<>(
-                id,
+                entity.getId(),
                 entity.getProduct().getName(),
                 entity.getQuantity(),
                 entity.getProduct().getPrice()

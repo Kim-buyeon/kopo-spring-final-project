@@ -1,6 +1,8 @@
 package kr.co.springbootex.ecommerce.repository;
 
-import kr.co.springbootex.ecommerce.entity.Category;
+import org.springframework.stereotype.Repository;
 
-public interface CategoryRepository extends GenericRepository<Category, Long>{
+import kr.co.springbootex.ecommerce.entity.Category;
+@Repository
+public interface CategoryRepository extends NameableRepository<Category, Long>{
 }

@@ -5,8 +5,6 @@ import kr.co.springbootex.ecommerce.entity.constant.UserStatus;
 
 public record StatusUpdateRequest(
   @NotNull
-  String id,
-  @NotNull
   UserStatus userStatus
 ) {
 }

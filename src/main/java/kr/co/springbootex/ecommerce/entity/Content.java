@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @Setter
-public class Content implements Nameable {
+public class Content implements Nameable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -33,7 +33,7 @@ public class Content implements Nameable {
     private String contentType;
 
     @Column(name = "qt_file_size", scale = 19)
-    private int size;
+    private Long size;
 
     @Column(name = "nm_file_ext", length = 10, nullable = false)
     private String extension;

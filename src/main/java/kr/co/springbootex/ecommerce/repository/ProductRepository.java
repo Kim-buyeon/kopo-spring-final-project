@@ -1,6 +1,10 @@
 package kr.co.springbootex.ecommerce.repository;
 
+import org.springframework.stereotype.Repository;
+
 import kr.co.springbootex.ecommerce.entity.Product;
 
-public interface ProductRepository extends GenericRepository<Product, String>{
+@Repository
+public interface ProductRepository extends NameableRepository<Product, String>{
+	
 }

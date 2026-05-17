@@ -18,7 +18,7 @@ public class CategoryProductMapping {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("categoryId")
-    @JoinColumn(name = "nm_cateogory")
+    @JoinColumn(name = "nm_category")
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
